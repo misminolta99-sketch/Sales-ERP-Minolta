@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Transactions · Sales Dispatch ERP</title>
+<link rel="stylesheet" href="css/style.css" />
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+<script type="module">
+  import { mountShell } from './js/app.js';
+  import { initTransactionsPage } from './js/table.js';
+  const shell = mountShell('transactions', 'Transactions');
+  if (shell) initTransactionsPage(shell.contentEl, shell.session);
+</script>
+</body>
+</html>

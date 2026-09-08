@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Login · Sales Dispatch Management ERP</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="login-shell">
+  <div class="login-visual">
+    <div class="brand"><span class="dot"></span> Sales Dispatch ERP</div>
+    <div class="pitch">
+      <h1>Every invoice, party and warehouse in one dispatch board.</h1>
+      <p>Built on the Google Sheet you already use — instant filtering, margin tracking and export, without leaving your browser.</p>
+    </div>
+    <div class="stat-row">
+      <div><b>20k+</b><span>rows supported</span></div>
+      <div><b>3</b><span>role levels</span></div>
+      <div><b>&lt;1s</b><span>filter response</span></div>
+    </div>
+  </div>
+
+  <div class="login-form-wrap">
+    <div class="login-card">
+      <h2>Welcome back</h2>
+      <p class="sub">Sign in to your dispatch dashboard.</p>
+
+      <form id="loginForm">
+        <div class="field">
+          <label for="username">Username</label>
+          <input id="username" type="text" placeholder="e.g. admin" autocomplete="username" required />
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" type="password" placeholder="••••••••" autocomplete="current-password" required />
+        </div>
+
+        <label style="display:block;font-size:12.5px;font-weight:600;color:var(--text-mute);margin-bottom:6px;">Role</label>
+        <div class="role-select" id="roleSelect">
+          <div class="role-opt active" data-role="Admin">Admin</div>
+          <div class="role-opt" data-role="Sales">Sales</div>
+          <div class="role-opt" data-role="Viewer">Viewer</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Sign in</button>
+      </form>
+
+      <p class="login-demo-note">Demo mode — any username/password works. Pick a role to preview its permissions. Connect a live Google Sheet in <code>js/api.js</code> to go live.</p>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { login } from './js/auth.js';
+  import { toast } from './js/utils.js';
+
+  let selectedRole = 'Admin';
+  document.querySelectorAll('.role-opt').forEach((opt) => {
+    opt.addEventListener('click', () => {
+      document.querySelectorAll('.role-opt').forEach((o) => o.classList.remove('active'));
+      opt.classList.add('active');
+      selectedRole = opt.dataset.role;
+    });
+  });
+
+  document.getElementById('loginForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const username = document.getElementById('username').value.trim();
+    if (!username) return;
+    login(username, selectedRole);
+    toast(`Welcome, ${username} (${selectedRole})`, 'success');
+    setTimeout(() => { window.location.href = 'dashboard.html'; }, 300);
+  });
+</script>
+</body>
+</html>
